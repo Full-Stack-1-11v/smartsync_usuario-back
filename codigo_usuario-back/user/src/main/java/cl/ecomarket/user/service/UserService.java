@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import cl.ecomarket.user.model.User;
+
 import cl.ecomarket.user.repository.UserRepository;
 import jakarta.transaction.Transactional;
 
@@ -60,5 +61,8 @@ public class UserService {
     public List<User> findByEstadoFalse() {
         return userRepository.findByEstadoFalse();
     }
+
+
+   
 }
 
