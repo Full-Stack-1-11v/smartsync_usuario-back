@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import cl.ecomarket.user.dto.UserDto;
 import cl.ecomarket.user.model.User;
 
 import cl.ecomarket.user.service.UserService;
@@ -119,6 +120,16 @@ public class UserController {
         }
     }
     
+    @GetMapping("/{id}/dto")
+    public ResponseEntity<UserDto> obtenerUsuarioDto(@PathVariable Integer id) {
+        try {
+            User user = userService.findById(id);
+            UserDto dto = userService.toDto(user);
+            return ResponseEntity.ok(dto);
+        } catch (RuntimeException e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
 
     
 }

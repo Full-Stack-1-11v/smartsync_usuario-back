@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import cl.ecomarket.user.dto.UserDto;
 import cl.ecomarket.user.model.User;
 
 import cl.ecomarket.user.repository.UserRepository;
@@ -63,6 +64,14 @@ public class UserService {
     }
 
 
+     public UserDto toDto(User user) {
+        UserDto dto = new UserDto();
+        dto.setId(user.getId());
+        dto.setName(user.getName());
+        dto.setEmail(user.getEmail());
+        dto.setEstado(user.isEstado());
+        return dto;
+    }
    
 }
 
