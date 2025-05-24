@@ -12,6 +12,9 @@ import cl.ecomarket.user.model.Rol;
 import cl.ecomarket.user.service.RolService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+
 
 
 @RestController
@@ -43,6 +46,19 @@ public class RolController {
     }
     
 }  
+
+    // agregar rol
+    @PostMapping("/agregar")
+    public ResponseEntity<Rol> agregarRol(@RequestBody Rol rol) {
+        try {
+            Rol nuevoRol = rolService.save(rol);
+            return ResponseEntity.ok(nuevoRol);
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().build();
+        }
+    }
+ 
+ 
 
 
 }
