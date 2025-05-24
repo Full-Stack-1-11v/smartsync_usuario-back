@@ -54,6 +54,7 @@ public class UserController {
             usuario.setName(user.getName());
             usuario.setEmail(user.getEmail());
             usuario.setEstado(user.isEstado());
+            usuario.setPassword(user.getPassword());
             usuario.setRol(user.getRol());
 
             userService.save(usuario);
