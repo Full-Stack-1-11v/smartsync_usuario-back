@@ -42,27 +42,27 @@ public class UserService {
     // eliminar usuario por estado
     // Este método elimina un usuario por su ID, pero solo si su estado es false
     public void deleteByIdFalse(Integer id) {
-    User user = userRepository.findById(id)
-            .orElseThrow(() -> new RuntimeException("Usuario no encontrado con ID: " + id));
-    if (!user.isEstado()) {
-        userRepository.deleteById(id);
-    } else {
-        throw new RuntimeException("No se puede eliminar el usuario porque está habilitado");
-        }
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado con ID: " + id));
+        if (!user.isEstado()) {
+            userRepository.deleteById(id);
+        } else {
+            throw new RuntimeException("No se puede eliminar el usuario porque está habilitado");
+            }
 
-    }
+        }
 
     // login 
     public boolean login(String email, String password) {
-    User user = userRepository.findByEmail(email);
-    if (user == null) {
-        return false;
-    }
-    return user.getPassword().equals(password);
-    }
+        User user = userRepository.findByEmail(email);
+        if (user == null) {
+            return false;
+        }
+        return user.getPassword().equals(password);
+        }
 
     // buscar por estado
-    @Transactional
+
     public List<User> findByEstadoFalse() {
         return userRepository.findByEstadoFalse();
     }
@@ -70,9 +70,9 @@ public class UserService {
 
     // borrar todos los inactivos
     public void deleteByEstadoFalse() {
-    List<User> inactivos = userRepository.findByEstadoFalse();
-    userRepository.deleteAll(inactivos);
-}
+        List<User> inactivos = userRepository.findByEstadoFalse();
+        userRepository.deleteAll(inactivos);
+    }
 
 
      public UserDto toDto(User user) {

@@ -141,7 +141,7 @@ public class UserController {
     }
 
     // eliminar todos los inactivos
-    @DeleteMapping("/inactivos")
+    @DeleteMapping("/eliminar/inactivos")
     public ResponseEntity<?> eliminarInactivos() {
         try {
             userService.deleteByEstadoFalse();
