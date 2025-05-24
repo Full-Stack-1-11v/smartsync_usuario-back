@@ -150,6 +150,12 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error interno del servidor");
         }
     }
+
+
+    @GetMapping("/test-delete")
+        public ResponseEntity<String> testDelete() {
+            return ResponseEntity.ok("El servidor responde correctamente");
+        }
 }
    
 
