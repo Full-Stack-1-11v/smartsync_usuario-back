@@ -54,11 +54,11 @@ public class UserService {
 
     // login 
     public boolean login(String email, String password) {
-    User usuario = userRepository.findByEmail(email);
-    if (usuario == null) {
-        return false; // Usuario no encontrado
+    User user = userRepository.findByEmail(email);
+    if (user == null) {
+        return false;
     }
-    return usuario.getPassword().equals(password);
+    return user.getPassword().equals(password);
     }
 
     @Transactional
