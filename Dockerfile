@@ -1,11 +1,13 @@
-# etapa 1: construir el jar
-FROM eclipse-temurin:17-jdk-alpine as build
+# Etapa 1: construir el JAR
+FROM eclipse-temurin:17-jdk-alpine AS build
 WORKDIR /app
 COPY . .
+RUN chmod +x mvnw
 RUN ./mvnw clean package -DskipTests
-# etapa 2: construir la imagen
-FROM eclipse-temurin:17-jre-alpine
+
+# Etapa 2: usar solo el JAR generado
+FROM eclipse-temurin:17-jdk-alpine
 WORKDIR /app
 COPY --from=build /app/target/*.jar app.jar
-EXPOSE 8090
+EXPOSE 8080
 ENTRYPOINT ["java", "-jar", "app.jar"]
