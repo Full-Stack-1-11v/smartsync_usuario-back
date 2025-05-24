@@ -103,14 +103,19 @@ public class UserController {
     // Este método recibe un objeto User con el email y la contraseña, 
     //y devuelve un mensaje de éxito o error
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody User user) {
+public ResponseEntity<String> login(@RequestBody User user) {
+    try {
         boolean exito = userService.login(user.getEmail(), user.getPassword());
-        if(exito) {
+        if (exito) {
             return ResponseEntity.ok("inicio sesion exitoso");
         } else {
-            return ResponseEntity.status(401).body("credenciales incorrectas");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("credenciales incorrectas");
         }
-        
+    } catch (Exception e) {
+        // Log the error for debugging
+        e.printStackTrace();
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error interno del servidor");
+    }
     }
 
     // obtener usuarios inactivos
