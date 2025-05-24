@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import cl.ecomarket.user.model.Rol;
-import cl.ecomarket.user.model.User;
+
 import cl.ecomarket.user.service.RolService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -49,7 +49,7 @@ public class RolController {
         return ResponseEntity.notFound().build();
     }
     
-}  
+  }
 
     
 
