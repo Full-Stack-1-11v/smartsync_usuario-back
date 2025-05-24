@@ -23,6 +23,8 @@ import cl.ecomarket.user.service.UserService;
 @RequestMapping("/api/v1/user")
 public class UserController {
 
+    User user = new User();
+
     @Autowired
     private UserService userService;
 
