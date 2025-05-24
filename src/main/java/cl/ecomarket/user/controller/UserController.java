@@ -140,7 +140,16 @@ public class UserController {
         }
     }
 
-    
+    // eliminar todos los inactivos
+    @DeleteMapping("/inactivos")
+    public ResponseEntity<?> eliminarInactivos() {
+        try {
+            userService.deleStatusFalse();
+            return ResponseEntity.noContent().build();
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error interno del servidor");
+        }
+    }
 }
    
 

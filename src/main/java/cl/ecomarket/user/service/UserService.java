@@ -68,6 +68,13 @@ public class UserService {
     }
 
 
+    // borrar todos los inactivos
+    public void deleStatusFalse() {
+        List<User> inactives = userRepository.findByEstadoFalse();
+        userRepository.deleteAll(inactives);
+    }
+
+
      public UserDto toDto(User user) {
         UserDto dto = new UserDto();
         dto.setId(user.getId());
