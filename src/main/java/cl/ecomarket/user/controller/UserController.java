@@ -103,7 +103,7 @@ public class UserController {
     // Este método recibe un objeto User con el email y la contraseña, 
     //y devuelve un mensaje de éxito o error
     @PostMapping("/login")
-public ResponseEntity<String> login(@RequestBody User user) {
+    public ResponseEntity<String> login(@RequestBody User user) {
     try {
         boolean exito = userService.login(user.getEmail(), user.getPassword());
         if (exito) {
