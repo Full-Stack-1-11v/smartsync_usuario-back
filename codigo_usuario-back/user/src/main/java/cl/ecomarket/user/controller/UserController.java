@@ -45,7 +45,7 @@ public class UserController {
     }
 
 
-    @PutMapping("{id}/actualizar")
+    @PutMapping("/{id}/actualizar")
     public ResponseEntity<User> actualizar(@PathVariable Integer id, @RequestBody User user) {
         try {
 
@@ -63,7 +63,7 @@ public class UserController {
         }
     }
 
-    @DeleteMapping("{id}/eliminar")
+    @DeleteMapping("/{id}/eliminar")
     public ResponseEntity<?> eliminar(@PathVariable Integer id) {
         try {
             userService.deleteById(id);
@@ -87,7 +87,7 @@ public class UserController {
     }
 
     // eliminar usuario por estado
-    @DeleteMapping("{id}/eliminar/estado")
+    @DeleteMapping("/{id}/eliminar/estado")
     public ResponseEntity<?> eliminarPorEstado(@PathVariable Integer id) {
         try {
             userService.deleteByIdFalse(id);
