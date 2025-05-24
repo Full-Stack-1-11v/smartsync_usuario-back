@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 
 @RestController
-@RequestMapping("/api/rol")
+@RequestMapping("/api/v1/rol")
 public class RolController {
 
     @Autowired
@@ -40,7 +40,7 @@ public class RolController {
     
 
 
-  @GetMapping("/buscar/{id}")
+  @GetMapping("/{id}/buscar")
     public ResponseEntity<Rol> buscarRolPorId(@PathVariable Integer id) {
     try {
         Rol rol = rolService.findById(id);

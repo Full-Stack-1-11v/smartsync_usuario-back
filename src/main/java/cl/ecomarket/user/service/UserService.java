@@ -61,6 +61,7 @@ public class UserService {
     return user.getPassword().equals(password);
     }
 
+    // buscar por estado
     @Transactional
     public List<User> findByEstadoFalse() {
         return userRepository.findByEstadoFalse();
