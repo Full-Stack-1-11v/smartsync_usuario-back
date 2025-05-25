@@ -17,18 +17,10 @@ import cl.ecomarket.user.model.User;
 public class MonitoreoDtoController {
  
     @PostMapping("/enviarMonitoreo")
-    public ResponseEntity<String> recibirMonitoreo(@RequestBody MonitoreoUserRequest monitoreoUserRequest) {
-        try {
-            MonitoreoDTO monitoreoDTO = monitoreoUserRequest.getMonitoreoDTO();
-            User user = monitoreoUserRequest.getUser();
-
-            System.out.println("Monitoreo recibido: " + monitoreoDTO);
-            System.out.println("Usuario: " + user);
-
-        } catch (Exception e) {
-            return ResponseEntity.status(500).body("Error al procesar el monitoreo");
-        }
-        return ResponseEntity.ok("Monitoreo recibido correctamente");
-    }
+public ResponseEntity<String> recibirMonitoreo(@RequestBody MonitoreoDTO monitoreoDTO) {
+    // Aquí puedes visualizar o procesar los datos recibidos
+    System.out.println(monitoreoDTO.getDescripcion());
+    return ResponseEntity.ok("Monitoreo recibido correctamente");
+}
     
 }
