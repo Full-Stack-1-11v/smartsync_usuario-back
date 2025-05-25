@@ -15,7 +15,7 @@ import cl.ecomarket.user.model.User;
 @RequestMapping("/reporte")
 public class ReporteDtoController {
  
-     @PostMapping("/recibir")
+     @PostMapping("/enviarMonitoreo")
 public String recibirMonitoreo(@RequestBody MonitoreoUserRequest request) {
     MonitoreoDTO monitoreoDTO = request.getMonitoreoDTO();
     User user = request.getUser();
