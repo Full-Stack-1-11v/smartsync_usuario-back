@@ -23,8 +23,7 @@ public class MonitoreoDtoController {
 public ResponseEntity<String> recibirMonitoreo(@RequestBody MonitoreoDTO monitoreoDTO) {
     // Aquí puedes visualizar o procesar los datos recibidos
     System.out.println(monitoreoDTO.getDescripcion());
-    System.out.println(monitoreoDTO.getEstado());
-    System.out.println(monitoreoDTO.getId());
+
     return ResponseEntity.ok("Monitoreo recibido correctamente");
 }
 
@@ -33,7 +32,7 @@ public ResponseEntity<String> recibirMonitoreo(@RequestBody MonitoreoDTO monitor
 
 
 
-@GetMapping("/todos")
+    @GetMapping("/todos")
     public List<MonitoreoDTO> obtenerTodos() {
         return monitoreos; // Devuelve todos los monitoreos recibidos
     }
