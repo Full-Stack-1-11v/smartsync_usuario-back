@@ -24,7 +24,7 @@ public class UserService {
     }
 
     // buscar por id
-    public User findById(Integer id){
+    public User userId(Integer id){
         return userRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado con ID: " + id));
     }
@@ -83,6 +83,9 @@ public class UserService {
         dto.setEstado(user.isEstado());
         return dto;
     }
+
+
+    
    
 }
 

@@ -49,7 +49,7 @@ public class UserController {
     public ResponseEntity<User> actualizar(@PathVariable Integer id, @RequestBody User user) {
         try {
 
-            User usuario = userService.findById(id);
+            User usuario = userService.userId(id);
             usuario.setId(id);
             usuario.setName(user.getName());
             usuario.setEmail(user.getEmail());
@@ -81,7 +81,7 @@ public class UserController {
     @GetMapping("/buscar/{id}")
     public ResponseEntity<User> buscarPorId(@PathVariable Integer id) {
         try {
-            User user = userService.findById(id);
+            User user = userService.userId(id);
             return ResponseEntity.ok(user);
         } catch (RuntimeException e) {
             return ResponseEntity.notFound().build();
@@ -132,7 +132,7 @@ public class UserController {
     @GetMapping("/{id}/dto")
     public ResponseEntity<UserDto> obtenerUsuarioDto(@PathVariable Integer id) {
         try {
-            User user = userService.findById(id);
+            User user = userService.userId(id);
             UserDto dto = userService.toDto(user);
             return ResponseEntity.ok(dto);
         } catch (RuntimeException e) {

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,7 +12,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import cl.ecomarket.user.client.ProductoServiceInterfaz;
 import cl.ecomarket.user.dto.ProductoDto;
-import cl.ecomarket.user.dto.UserDto;
+
+import cl.ecomarket.user.dto.UserProductoDto;
+import cl.ecomarket.user.model.User;
+import cl.ecomarket.user.service.UserService;
+
 
 
 
@@ -26,6 +31,9 @@ public class ProductoExternoController {
     @Autowired
     private ProductoServiceInterfaz productoService;
 
+    @Autowired
+    private UserService userService;
+
     @GetMapping()
     public List<ProductoDto> listarProductos() {
         List<ProductoDto> productos = productoService.listarProductos();
@@ -35,9 +43,21 @@ public class ProductoExternoController {
         return productos;
     }
 
-    @GetMapping("/{id}")
-public ProductoDto obtenerProductoPorId(@PathVariable("id") Long id) {
-    return productoService.obtenerProductoPorId(id);
+    @GetMapping("/userproductodto/{id}")
+public ResponseEntity<UserProductoDto> obtenerProductoPorIduser(@PathVariable("id") Long id) {
+    ProductoDto producto = productoService.obtenerProductoPorId(id);
+    if (producto == null) {
+        return ResponseEntity.notFound().build();
+    }
+    User user;
+    try {
+        user = userService.userId(id.intValue());
+    } catch (Exception e) {
+        return ResponseEntity.notFound().build();
+    }
+    UserProductoDto userProductoDto = new UserProductoDto();
+    userProductoDto.setProducto(producto);
+    userProductoDto.setUser(user);
+    return ResponseEntity.ok(userProductoDto);
 }
-
 }

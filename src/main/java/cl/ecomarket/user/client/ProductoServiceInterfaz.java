@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import cl.ecomarket.user.dto.ProductoDto;
 
 
-@FeignClient(name = "producto-api", url = "http://localhost:8080")
+@FeignClient(name = "producto-api", url = "https://smartsync-producto-back.onrender.com/")
 public interface ProductoServiceInterfaz {
 
      @GetMapping("/api/v1/ecomarket/producto/{id}")
