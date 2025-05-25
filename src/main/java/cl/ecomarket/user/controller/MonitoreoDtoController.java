@@ -1,5 +1,6 @@
 package cl.ecomarket.user.controller;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,15 +17,18 @@ import cl.ecomarket.user.model.User;
 public class MonitoreoDtoController {
  
     @PostMapping("/enviarMonitoreo")
-    public String recibirMonitoreo(@RequestBody MonitoreoUserRequest monitoreoUserRequest) {
-        MonitoreoDTO monitoreoDTO = monitoreoUserRequest.getMonitoreoDTO();
-        User user = monitoreoUserRequest.getUser();
+    public ResponseEntity<String> recibirMonitoreo(@RequestBody MonitoreoUserRequest monitoreoUserRequest) {
+        try {
+            MonitoreoDTO monitoreoDTO = monitoreoUserRequest.getMonitoreoDTO();
+            User user = monitoreoUserRequest.getUser();
 
-        // Aquí puedes procesar el monitoreoDTO y el user según tus necesidades
-        // Por ejemplo, puedes imprimir los valores en la consola
-        System.out.println("MonitoreoDTO: " + monitoreoDTO);
-        System.out.println("User: " + user);
+            System.out.println("Monitoreo recibido: " + monitoreoDTO);
+            System.out.println("Usuario: " + user);
 
-        return "Datos recibidos correctamente";
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("Error al procesar el monitoreo");
+        }
+        return ResponseEntity.ok("Monitoreo recibido correctamente");
     }
+    
 }
