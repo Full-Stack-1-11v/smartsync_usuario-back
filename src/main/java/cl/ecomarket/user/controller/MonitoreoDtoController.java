@@ -12,8 +12,8 @@ import cl.ecomarket.user.model.User;
 
 
 @RestController
-@RequestMapping("/reporte")
-public class ReporteDtoController {
+@RequestMapping("/api/v1/monitoreo")
+public class MonitoreoDtoController {
  
     @PostMapping("/enviarMonitoreo")
     public String recibirMonitoreo(@RequestBody MonitoreoUserRequest monitoreoUserRequest) {
