@@ -15,14 +15,16 @@ import cl.ecomarket.user.model.User;
 @RequestMapping("/reporte")
 public class ReporteDtoController {
  
-     @PostMapping("/enviarMonitoreo")
-public String recibirMonitoreo(@RequestBody MonitoreoUserRequest request) {
-    MonitoreoDTO monitoreoDTO = request.getMonitoreoDTO();
-    User user = request.getUser();
-    return "Recibido monitoreo: " + monitoreoDTO.getDescripcion() +
-           " estado = " + monitoreoDTO.getEstado() +
-           " id monitoreo = " + monitoreoDTO.getId() +
-           " id usuario = " + user.getId() +
-           " nombre user = " + user.getName();
-        }
+    @PostMapping("/enviarMonitoreo")
+    public String recibirMonitoreo(@RequestBody MonitoreoUserRequest monitoreoUserRequest) {
+        MonitoreoDTO monitoreoDTO = monitoreoUserRequest.getMonitoreoDTO();
+        User user = monitoreoUserRequest.getUser();
+
+        // Aquí puedes procesar el monitoreoDTO y el user según tus necesidades
+        // Por ejemplo, puedes imprimir los valores en la consola
+        System.out.println("MonitoreoDTO: " + monitoreoDTO);
+        System.out.println("User: " + user);
+
+        return "Datos recibidos correctamente";
+    }
 }
