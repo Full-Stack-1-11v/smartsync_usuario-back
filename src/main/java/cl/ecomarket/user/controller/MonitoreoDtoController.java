@@ -28,13 +28,4 @@ public ResponseEntity<String> recibirMonitoreo(@RequestBody MonitoreoDTO monitor
 }
 
 
-
-
-
-
-    @GetMapping("/todos")
-    public List<MonitoreoDTO> obtenerTodos() {
-        return monitoreos; // Devuelve todos los monitoreos recibidos
-    }
-    
 }
