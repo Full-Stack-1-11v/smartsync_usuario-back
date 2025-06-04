@@ -9,7 +9,7 @@ import cl.ecomarket.user.dto.ProductoDto;
 
 
 @FeignClient(name = "producto-api", url = "https://smartsync-producto-back.onrender.com/")
-public interface ProductoServiceInterfaz {
+public interface ProductoService {
 
      @GetMapping("/api/v1/ecomarket/producto/{id}")
     ProductoDto obtenerProductoPorId(@PathVariable("id") Long id);

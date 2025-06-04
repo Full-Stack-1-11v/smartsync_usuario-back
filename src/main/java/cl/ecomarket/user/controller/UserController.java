@@ -38,6 +38,19 @@ public class UserController {
         }
     }
 
+    // listar users dto
+    @GetMapping("/listar/dto")
+    public ResponseEntity<List<UserDto>> listarDto() {
+        List<UserDto> userDtos = userService.findAllDto();
+        if (userDtos.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        } else {
+            return ResponseEntity.ok(userDtos);
+        }
+    }
+
+
+
     @PostMapping("/guardar")
     public ResponseEntity<User> guardar(@RequestBody User user) {
         User nuevoUser = userService.save(user);

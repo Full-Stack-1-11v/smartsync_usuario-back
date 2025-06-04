@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import cl.ecomarket.user.client.ProductoServiceInterfaz;
+import cl.ecomarket.user.client.ProductoService;
 import cl.ecomarket.user.dto.ProductoDto;
 
 import cl.ecomarket.user.dto.UserProductoDto;
@@ -29,7 +29,7 @@ import cl.ecomarket.user.service.UserService;
 public class ProductoExternoController {
 
     @Autowired
-    private ProductoServiceInterfaz productoService;
+    private ProductoService productoService;
 
     @Autowired
     private UserService userService;

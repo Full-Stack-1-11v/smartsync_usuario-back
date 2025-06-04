@@ -85,6 +85,12 @@ public class UserService {
     }
 
 
+    // listar los dto
+    public List<UserDto> findAllDto() {
+        return userRepository.findAll().stream()
+                .map(this::toDto)
+                .toList();
+    }
     
    
 }
