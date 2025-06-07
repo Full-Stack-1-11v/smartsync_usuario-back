@@ -6,33 +6,33 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class UserTest {
    @Test
-void testGettersAndSetters () {
-    User user = new User();
-    Rol rol = new Rol();
-    Rol rol1 = new Rol();
-    Rol rol2 = new Rol();
+    void testGettersAndSetters () {
+        User user = new User();
+        Rol rol = new Rol();
+        Rol rol1 = new Rol();
+        Rol rol2 = new Rol();
 
-    user.setId(1);
-    user.setName("juan");
-    user.setEmail("@juan");
-    user.setPassword("1234");
-    user.setEstado(true);
+        user.setId(1);
+        user.setName("juan");
+        user.setEmail("@juan");
+        user.setPassword("1234");
+        user.setEstado(true);
 
-    user.setRol(rol);
-    assertEquals(rol, user.getRol());
+        user.setRol(rol);
+        assertEquals(rol, user.getRol());
 
-    user.setRol(rol1);
-    assertEquals(rol1, user.getRol());
+        user.setRol(rol1);
+        assertEquals(rol1, user.getRol());
 
-    user.setRol(rol2);
-    assertEquals(rol2, user.getRol());
+        user.setRol(rol2);
+        assertEquals(rol2, user.getRol());
 
-    assertEquals(1, user.getId());
-    assertEquals("juan", user.getName());
-    assertEquals("@juan", user.getEmail());
-    assertEquals("1234", user.getPassword());
-    assertTrue(user.isEstado());
-}
+        assertEquals(1, user.getId());
+        assertEquals("juan", user.getName());
+        assertEquals("@juan", user.getEmail());
+        assertEquals("1234", user.getPassword());
+        assertTrue(user.isEstado());
+    }
 
 
     @Test
