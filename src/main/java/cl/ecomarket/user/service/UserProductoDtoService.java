@@ -21,12 +21,12 @@ public class UserProductoDtoService {
         return null;
     }
 
-    // agregar rol
+    // agregar prroducto 
     public UserProductoDto save(UserProductoDto userProductoDto) {
         return null;
     }
 
-    // eliminar rol
+    // eliminar produto
     public void deleteById(Integer id) {
         
     }
