@@ -18,9 +18,12 @@ import cl.ecomarket.user.dto.UserDto;
 import cl.ecomarket.user.model.User;
 
 import cl.ecomarket.user.service.UserService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
 @RequestMapping("/api/v1/user")
+@Tag(name = "User", description = "Controlador para gestionar usuarios")
 public class UserController {
 
     User user = new User();
@@ -29,6 +32,7 @@ public class UserController {
     private UserService userService;
 
     @GetMapping("/listar")
+    @Operation(summary = "Listar todos los usuarios", description = "Obtiene una lista de todos los usuarios registrados")
     public ResponseEntity <List<User>> listar() {
         List<User> users = userService.findAll();
         if (users.isEmpty()) {
@@ -40,6 +44,7 @@ public class UserController {
 
     // listar users dto
     @GetMapping("/listar/dto")
+    @Operation(summary = "Listar todos los usuarios como DTO", description = "Obtiene una lista de todos los usuarios registrados en formato DTO")
     public ResponseEntity<List<UserDto>> listarDto() {
         List<UserDto> userDtos = userService.findAllDto();
         if (userDtos.isEmpty()) {
@@ -52,6 +57,7 @@ public class UserController {
 
 
     @PostMapping("/guardar")
+    @Operation(summary = "Guardar un nuevo usuario", description = "Crea un nuevo usuario en el sistema")
     public ResponseEntity<User> guardar(@RequestBody User user) {
         User nuevoUser = userService.save(user);
         return ResponseEntity.status(HttpStatus.CREATED).body(nuevoUser);
@@ -59,6 +65,7 @@ public class UserController {
 
 
     @PutMapping("/{id}/actualizar")
+    @Operation(summary = "Actualizar un usuario existente", description = "Actualiza los detalles de un usuario por su ID")
     public ResponseEntity<User> actualizar(@PathVariable Integer id, @RequestBody User user) {
         try {
 
@@ -79,6 +86,7 @@ public class UserController {
     }
 
     @DeleteMapping("/{id}/eliminar")
+    @Operation(summary = "Eliminar un usuario por ID", description = "Elimina un usuario del sistema por su ID")
     public ResponseEntity<?> eliminar(@PathVariable Integer id) {
         try {
             userService.deleteById(id);
@@ -92,6 +100,7 @@ public class UserController {
 
     // buscar usuario por id y devovlver un activo si es true o incativo si es false
     @GetMapping("/buscar/{id}")
+    @Operation(summary = "Buscar un usuario por ID", description = "Obtiene un usuario específico por su ID")
     public ResponseEntity<User> buscarPorId(@PathVariable Integer id) {
         try {
             User user = userService.userId(id);
@@ -103,6 +112,7 @@ public class UserController {
 
     // eliminar usuario por estado
     @DeleteMapping("/{id}/eliminar/estado")
+    @Operation(summary = "Eliminar un usuario por estado", description = "Elimina un usuario estableciendo su estado a false")
     public ResponseEntity<?> eliminarPorEstado(@PathVariable Integer id) {
         try {
             userService.deleteByIdFalse(id);
@@ -116,6 +126,7 @@ public class UserController {
     // Este método recibe un objeto User con el email y la contraseña, 
     //y devuelve un mensaje de éxito o error
     @PostMapping("/login")
+    @Operation(summary = "Iniciar sesión", description = "Permite a un usuario iniciar sesión con su email y contraseña")   
     public ResponseEntity<String> login(@RequestBody User user) {
     try {
         boolean exito = userService.login(user.getEmail(), user.getPassword());
@@ -133,6 +144,7 @@ public class UserController {
 
     // obtener usuarios inactivos
     @GetMapping("/inactivos")
+    @Operation(summary = "Obtener usuarios inactivos", description = "Devuelve una lista de usuarios que están inactivos (estado false)")   
     public ResponseEntity<List<User>> obtenerInactivos() {
         List<User> inactivos = userService.findByEstadoFalse();
         if (inactivos.isEmpty()) {
@@ -143,6 +155,7 @@ public class UserController {
     }
     
     @GetMapping("/{id}/dto")
+    @Operation(summary = "Obtener usuario por ID como DTO", description = "Devuelve un usuario específico por su ID en formato DTO")
     public ResponseEntity<UserDto> obtenerUsuarioDto(@PathVariable Integer id) {
         try {
             User user = userService.userId(id);
@@ -155,6 +168,7 @@ public class UserController {
 
     // eliminar todos los inactivos
     @DeleteMapping("/eliminar/inactivos")
+    @Operation(summary = "Eliminar usuarios inactivos", description = "Elimina todos los usuarios que están inactivos (estado false)")
     public ResponseEntity<?> eliminarInactivos() {
         try {
             userService.deleteByEstadoFalse();
@@ -166,6 +180,7 @@ public class UserController {
 
 
     @GetMapping("/test-delete")
+    @Operation(summary = "Test Delete", description = "Prueba de endpoint para verificar la eliminación")
         public ResponseEntity<String> testDelete() {
             return ResponseEntity.ok("El servidor responde correctamente");
         }

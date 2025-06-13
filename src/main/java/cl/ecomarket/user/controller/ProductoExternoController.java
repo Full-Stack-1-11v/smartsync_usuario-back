@@ -16,6 +16,8 @@ import cl.ecomarket.user.dto.ProductoDto;
 import cl.ecomarket.user.dto.UserProductoDto;
 import cl.ecomarket.user.model.User;
 import cl.ecomarket.user.service.UserService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 
 
@@ -26,6 +28,7 @@ import cl.ecomarket.user.service.UserService;
 
 @RestController
 @RequestMapping("/api/v1/ecomarket/producto")
+@Tag(name = "Producto Externo", description = "Controlador para gestionar productos externos")
 public class ProductoExternoController {
 
     @Autowired
@@ -35,6 +38,7 @@ public class ProductoExternoController {
     private UserService userService;
 
     @GetMapping()
+    @Operation(summary = "Listar productos externos", description = "Obtiene una lista de todos los productos externos disponibles")    
     public List<ProductoDto> listarProductos() {
         List<ProductoDto> productos = productoService.listarProductos();
         if (productos == null) {
@@ -44,6 +48,7 @@ public class ProductoExternoController {
     }
 
     @GetMapping("/userproductodto/{id}")
+    @Operation(summary = "Obtener producto por ID de usuario", description = "Obtiene un producto externo asociado a un usuario por su ID")
 public ResponseEntity<UserProductoDto> obtenerProductoPorIduser(@PathVariable("id") Long id) {
     ProductoDto producto = productoService.obtenerProductoPorId(id);
     if (producto == null) {

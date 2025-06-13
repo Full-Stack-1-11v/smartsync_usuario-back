@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import cl.ecomarket.user.model.Rol;
 
 import cl.ecomarket.user.service.RolService;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 
@@ -33,6 +34,7 @@ public class RolController {
     Rol rol = new Rol();
 
     @GetMapping("/listar")
+    @Operation(summary = "Listar todos los roles", description = "Obtiene  una lista de todos los roles registrados")
     public ResponseEntity<List<Rol>> listarRoles() {
         List<Rol> roles = rolService.listaList();
         if (roles.isEmpty()) {
@@ -45,6 +47,7 @@ public class RolController {
 
 
   @GetMapping("/{id}/buscar")
+    @Operation(summary = "Buscar rol por ID", description = "Obtiene un rol específico por su ID")
     public ResponseEntity<Rol> buscarRolPorId(@PathVariable Integer id) {
     try {
         Rol rol = rolService.findById(id);
@@ -58,6 +61,7 @@ public class RolController {
     
 
     @PostMapping("/guardar")
+    @Operation(summary = "Guardar un nuevo rol", description = "Crea un nuevo rol en el sistema")
     public ResponseEntity<Rol> guardar(@RequestBody Rol rol) {
         try {
             Rol nuevoRol = rolService.save(rol);
