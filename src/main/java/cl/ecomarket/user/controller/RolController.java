@@ -13,7 +13,7 @@ import cl.ecomarket.user.model.Rol;
 
 import cl.ecomarket.user.service.RolService;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import io.swagger.v3.oas.annotations.tags.Tags;
+
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
