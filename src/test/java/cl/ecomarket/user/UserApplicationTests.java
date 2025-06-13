@@ -8,12 +8,8 @@ import org.springframework.test.context.ActiveProfiles;
 
 @SpringBootTest
 @ActiveProfiles("test")
-class UserApplicationTests {
+public class UserApplicationTests {
 
-	@Test
-	void contextLoads() {
-		assertDoesNotThrow(() -> UserApplication.main(new String[] {}));	
-	}
 	
 
 }

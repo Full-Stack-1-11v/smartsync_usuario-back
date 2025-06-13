@@ -12,6 +12,9 @@ import org.springframework.web.bind.annotation.RestController;
 import cl.ecomarket.user.model.Rol;
 
 import cl.ecomarket.user.service.RolService;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.tags.Tags;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 @RestController
 @RequestMapping("/api/v1/rol")
+@Tag(name = "Rol", description = "Controlador para gestionar roles de usuario")
 public class RolController {
 
     @Autowired
@@ -55,8 +59,14 @@ public class RolController {
 
     @PostMapping("/guardar")
     public ResponseEntity<Rol> guardar(@RequestBody Rol rol) {
-        Rol nuevoRol = rolService.save(rol);
+        try {
+            Rol nuevoRol = rolService.save(rol);
         return ResponseEntity.status(HttpStatus.CREATED).body(nuevoRol);
+        } catch (RuntimeException e) {
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+    
+        }
+        
     }
  
  
