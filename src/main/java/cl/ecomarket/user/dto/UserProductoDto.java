@@ -8,6 +8,7 @@ public class UserProductoDto {
     
     private User user;
     private ProductoDto producto;
+    
 
     
 }
