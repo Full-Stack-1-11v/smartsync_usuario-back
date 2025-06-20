@@ -27,7 +27,6 @@ public class UserControllerTest {
     @MockBean
     private RolService rolService;
 
-
     @Autowired
     private MockMvc mockMvc;
 
@@ -53,7 +52,7 @@ public class UserControllerTest {
         Mockito.when(userService.findAll()).thenReturn(List.of(user));
         mockMvc.perform(get("/api/v1/user/listar"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].id").value(1));
+                .andExpect(jsonPath("$._embedded.userList[0].id").value(1));
     }
 
     // listar usuarios dto
@@ -72,7 +71,7 @@ public class UserControllerTest {
         Mockito.when(userService.findAllDto()).thenReturn(List.of(dto));
         mockMvc.perform(get("/api/v1/user/listar/dto"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].id").value(1));
+                .andExpect(jsonPath("$._embedded.userDtoList[0].id").value(1));
     }
 
     // guardar usuario
@@ -208,7 +207,7 @@ public class UserControllerTest {
         Mockito.when(userService.findByEstadoFalse()).thenReturn(List.of(user));
         mockMvc.perform(get("/api/v1/user/inactivos"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].id").value(1));
+                .andExpect(jsonPath("$._embedded.userList[0].id").value(1));
     }
 
     // obtener usuario dto por id

@@ -2,7 +2,6 @@ package cl.ecomarket.user.controller;
 
 import cl.ecomarket.user.client.ProductoService;
 import cl.ecomarket.user.dto.ProductoDto;
-
 import cl.ecomarket.user.model.User;
 import cl.ecomarket.user.service.RolService;
 import cl.ecomarket.user.service.UserService;
@@ -11,11 +10,7 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-
 import org.springframework.test.web.servlet.MockMvc;
-
-
-
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -30,7 +25,6 @@ public class ProductoExternoControllerTest {
     private RolService rolService;
     @MockBean
     private ProductoService productoService;
-
     @MockBean
     private UserService userService;
 
@@ -43,8 +37,9 @@ public class ProductoExternoControllerTest {
 
         mockMvc.perform(get("/api/v1/ecomarket/producto"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].idProducto").value(1L))
-                .andExpect(jsonPath("$[0].nombreProducto").value("Producto1"));
+                // Ajuste para HATEOAS: busca en _embedded.productoDtoList
+                .andExpect(jsonPath("$._embedded.productoDtoList[0].idProducto").value(1))
+                .andExpect(jsonPath("$._embedded.productoDtoList[0].nombreProducto").value("Producto1"));
     }
 
     @Test
@@ -52,8 +47,7 @@ public class ProductoExternoControllerTest {
         Mockito.when(productoService.listarProductos()).thenReturn(null);
 
         mockMvc.perform(get("/api/v1/ecomarket/producto"))
-                .andExpect(status().isOk())
-                .andExpect(content().json("[]"));
+                .andExpect(status().isNoContent());
     }
 
     @Test
@@ -69,9 +63,9 @@ public class ProductoExternoControllerTest {
         Mockito.when(userService.userId(1)).thenReturn(user);
 
         mockMvc.perform(get("/api/v1/ecomarket/producto/userproductodto/1"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.producto.idProducto").value(1L))
-                .andExpect(jsonPath("$.user.id").value(1));
+    .andExpect(status().isOk())
+    .andExpect(jsonPath("$.producto.idProducto").value(1L))
+    .andExpect(jsonPath("$.user.id").value(1));
     }
 
     @Test
@@ -93,5 +87,3 @@ public class ProductoExternoControllerTest {
                 .andExpect(status().isNotFound());
     }
 }
-
-    

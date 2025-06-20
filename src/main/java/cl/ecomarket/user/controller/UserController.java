@@ -6,7 +6,6 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 import java.util.List;
 //import java.util.logging.Logger;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
@@ -29,7 +28,6 @@ import cl.ecomarket.user.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
-
 @RestController
 @RequestMapping("/api/v1/user")
 @Tag(name = "User", description = "Controlador para gestionar usuarios")
@@ -43,7 +41,8 @@ public class UserController {
     @Autowired
     private UserModelAssembler userModelAssembler;
 
-    //private static final Logger  logger = Logger.getLogger(UserController.class.getName());
+    // private static final Logger logger =
+    // Logger.getLogger(UserController.class.getName());
 
     @GetMapping("/listar")
     @Operation(summary = "Listar todos los usuarios", description = "Obtiene una lista de todos los usuarios registrados")
@@ -56,17 +55,16 @@ public class UserController {
             return ResponseEntity.noContent().build();
         } else {
             return ResponseEntity.ok(CollectionModel.of(userModels,
-            linkTo(methodOn(UserController.class).listar()).withSelfRel()));
+                    linkTo(methodOn(UserController.class).listar()).withSelfRel()));
         }
     }
 
     // buscar usuario por id y devovlver un activo si es true o incativo si es false
     @GetMapping("/buscar/{id}")
     @Operation(summary = "Buscar un usuario por ID", description = "Obtiene un usuario específico por su ID")
-    public ResponseEntity<EntityModel<User>> buscarPorId(@PathVariable Integer id)
-     {
+    public ResponseEntity<EntityModel<User>> buscarPorId(@PathVariable Integer id) {
         try {
-            
+
             User user = userService.userId(id);
             EntityModel<User> userModel = userModelAssembler.toModel(user);
             return ResponseEntity.ok(userModel);
@@ -74,20 +72,20 @@ public class UserController {
             return ResponseEntity.notFound().build();
         }
     }
-   
- // obtener usuarios inactivos
+
+    // obtener usuarios inactivos
     @GetMapping("/inactivos")
-    @Operation(summary = "Obtener usuarios inactivos", description = "Devuelve una lista de usuarios que están inactivos (estado false)")   
+    @Operation(summary = "Obtener usuarios inactivos", description = "Devuelve una lista de usuarios que están inactivos (estado false)")
     public ResponseEntity<CollectionModel<EntityModel<User>>> obtenerInactivos() {
         List<User> inactivos = userService.findByEstadoFalse();
         List<EntityModel<User>> userModels = inactivos.stream()
                 .map(userModelAssembler::toModel)
-                .toList();  
+                .toList();
         if (inactivos.isEmpty()) {
             return ResponseEntity.noContent().build();
         } else {
             return ResponseEntity.ok(CollectionModel.of(userModels,
-            linkTo(methodOn(UserController.class).obtenerInactivos()).withSelfRel()));
+                    linkTo(methodOn(UserController.class).obtenerInactivos()).withSelfRel()));
         }
     }
 
@@ -96,32 +94,31 @@ public class UserController {
     public ResponseEntity<CollectionModel<EntityModel<UserDto>>> listarDto() {
         List<UserDto> userDtos = userService.findAllDto();
         List<EntityModel<UserDto>> userModelDtos = userDtos.stream()
-        .map(userModelAssembler::toModelDto)
-        .toList();
+                .map(userModelAssembler::toModelDto)
+                .toList();
         if (userDtos.isEmpty()) {
             return ResponseEntity.noContent().build();
         } else {
             return ResponseEntity.ok(CollectionModel.of(userModelDtos,
-            linkTo(methodOn(UserController.class).listarDto()).withSelfRel()));
+                    linkTo(methodOn(UserController.class).listarDto()).withSelfRel()));
         }
     }
 
     @GetMapping("/{id}/dto")
-@Operation(summary = "Obtener usuario por ID como DTO", description = "Devuelve un usuario específico por su ID en formato DTO")
-public ResponseEntity<EntityModel<UserDto>> obtenerUsuarioDto(@PathVariable Integer id) {
-    try {
-        // Obtiene el usuario por id
-        User user = userService.userId(id);
-        // Convierte el usuario a DTO
-        UserDto dto = userService.toDto(user);
-        // Envuelve el DTO en un EntityModel con enlaces HATEOAS
-        EntityModel<UserDto> userModelDto = userModelAssembler.toModelDto(dto);
-        return ResponseEntity.ok(userModelDto);
-    } catch (RuntimeException e) {
-        return ResponseEntity.notFound().build();
+    @Operation(summary = "Obtener usuario por ID como DTO", description = "Devuelve un usuario específico por su ID en formato DTO")
+    public ResponseEntity<EntityModel<UserDto>> obtenerUsuarioDto(@PathVariable Integer id) {
+        try {
+            // Obtiene el usuario por id
+            User user = userService.userId(id);
+            // Convierte el usuario a DTO
+            UserDto dto = userService.toDto(user);
+            // Envuelve el DTO en un EntityModel con enlaces HATEOAS
+            EntityModel<UserDto> userModelDto = userModelAssembler.toModelDto(dto);
+            return ResponseEntity.ok(userModelDto);
+        } catch (RuntimeException e) {
+            return ResponseEntity.notFound().build();
+        }
     }
-}
-
 
     @PostMapping("/guardar")
     @Operation(summary = "Guardar un nuevo usuario", description = "Crea un nuevo usuario en el sistema")
@@ -131,7 +128,6 @@ public ResponseEntity<EntityModel<UserDto>> obtenerUsuarioDto(@PathVariable Inte
         // Aquí puedes agregar enlaces HATEOAS adicionales si es necesario
         return ResponseEntity.status(HttpStatus.CREATED).body(userModel);
     }
-
 
     @PutMapping("/{id}/actualizar")
     @Operation(summary = "Actualizar un usuario existente", description = "Actualiza los detalles de un usuario por su ID")
@@ -168,8 +164,6 @@ public ResponseEntity<EntityModel<UserDto>> obtenerUsuarioDto(@PathVariable Inte
 
     }
 
-    
-
     // eliminar usuario por estado
     @DeleteMapping("/{id}/eliminar/estado")
     @Operation(summary = "Eliminar un usuario por estado", description = "Elimina un usuario estableciendo su estado a false")
@@ -183,26 +177,24 @@ public ResponseEntity<EntityModel<UserDto>> obtenerUsuarioDto(@PathVariable Inte
     }
 
     // login
-    // Este método recibe un objeto User con el email y la contraseña, 
-    //y devuelve un mensaje de éxito o error
+    // Este método recibe un objeto User con el email y la contraseña,
+    // y devuelve un mensaje de éxito o error
     @PostMapping("/login")
-    @Operation(summary = "Iniciar sesión", description = "Permite a un usuario iniciar sesión con su email y contraseña")   
+    @Operation(summary = "Iniciar sesión", description = "Permite a un usuario iniciar sesión con su email y contraseña")
     public ResponseEntity<String> login(@RequestBody User user) {
-    try {
-        boolean exito = userService.login(user.getEmail(), user.getPassword());
-        if (exito) {
-            return ResponseEntity.ok("inicio sesion exitoso");
-        } else {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("credenciales incorrectas");
-        }
-    } catch (Exception e) {
-        // Log the error for debugging
-        e.printStackTrace();
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error interno del servidor");
+        try {
+            boolean exito = userService.login(user.getEmail(), user.getPassword());
+            if (exito) {
+                return ResponseEntity.ok("inicio sesion exitoso");
+            } else {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("credenciales incorrectas");
+            }
+        } catch (Exception e) {
+            // Log the error for debugging
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error interno del servidor");
         }
     }
-
-
 
     // eliminar todos los inactivos
     @DeleteMapping("/eliminar/inactivos")
@@ -216,17 +208,14 @@ public ResponseEntity<EntityModel<UserDto>> obtenerUsuarioDto(@PathVariable Inte
         }
     }
 
-
     @GetMapping("/test-delete")
     @Operation(summary = "Test Delete", description = "Prueba de endpoint para verificar la eliminación")
-        public ResponseEntity<String> testDelete() {
-            return ResponseEntity.ok("El servidor responde correctamente");
-        }
+    public ResponseEntity<String> testDelete() {
+        return ResponseEntity.ok("El servidor responde correctamente");
+    }
 
     public Class<?> buscarPorId(Long id) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'buscarPorId'");
     }
 }
-   
-
