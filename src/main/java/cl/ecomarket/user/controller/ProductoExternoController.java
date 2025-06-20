@@ -19,6 +19,10 @@ import cl.ecomarket.user.dto.UserProductoDto;
 import cl.ecomarket.user.model.User;
 import cl.ecomarket.user.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
@@ -37,6 +41,11 @@ public class ProductoExternoController {
 
     @GetMapping()
     @Operation(summary = "Listar productos externos", description = "Obtiene una lista de todos los productos externos disponibles")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Lista de productos externos obtenida correctamente.", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ProductoDto.class))),
+            @ApiResponse(responseCode = "204", description = "No se encontraron productos externos."),
+            @ApiResponse(responseCode = "500", description = "Error interno del servidor.")
+    })
     public ResponseEntity<CollectionModel<EntityModel<ProductoDto>>> listarProductos() {
         List<ProductoDto> productos = productoService.listarProductos();
         if (productos == null || productos.isEmpty()) {
@@ -50,6 +59,11 @@ public class ProductoExternoController {
 
     @GetMapping("/userproductodto/{id}")
     @Operation(summary = "Obtener producto por ID de usuario", description = "Obtiene un producto externo asociado a un usuario por su ID")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Producto externo asociado al usuario encontrado.", content = @Content(mediaType = "application/json", schema = @Schema(implementation = UserProductoDto.class))),
+            @ApiResponse(responseCode = "404", description = "Producto o usuario no encontrado."),
+            @ApiResponse(responseCode = "500", description = "Error interno del servidor.")
+    })
     public ResponseEntity<EntityModel<UserProductoDto>> obtenerProductoPorIduser(@PathVariable("id") Long id) {
         ProductoDto producto = productoService.obtenerProductoPorId(id);
         if (producto == null) {

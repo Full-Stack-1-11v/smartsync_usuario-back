@@ -26,6 +26,10 @@ import cl.ecomarket.user.model.User;
 
 import cl.ecomarket.user.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
@@ -46,6 +50,10 @@ public class UserController {
 
     @GetMapping("/listar")
     @Operation(summary = "Listar todos los usuarios", description = "Obtiene una lista de todos los usuarios registrados")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Lista de usuarios obtenida correctamente.", content = @Content(mediaType = "application/json", schema = @Schema(implementation = User.class))),
+            @ApiResponse(responseCode = "204", description = "No se encontraron usuarios.")
+    })
     public ResponseEntity<CollectionModel<EntityModel<User>>> listar() {
         List<User> users = userService.findAll();
         List<EntityModel<User>> userModels = users.stream()
@@ -62,6 +70,10 @@ public class UserController {
     // buscar usuario por id y devovlver un activo si es true o incativo si es false
     @GetMapping("/buscar/{id}")
     @Operation(summary = "Buscar un usuario por ID", description = "Obtiene un usuario específico por su ID")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Usuario encontrado.", content = @Content(mediaType = "application/json", schema = @Schema(implementation = User.class))),
+            @ApiResponse(responseCode = "404", description = "Usuario no encontrado.")
+    })
     public ResponseEntity<EntityModel<User>> buscarPorId(@PathVariable Integer id) {
         try {
 
@@ -76,6 +88,10 @@ public class UserController {
     // obtener usuarios inactivos
     @GetMapping("/inactivos")
     @Operation(summary = "Obtener usuarios inactivos", description = "Devuelve una lista de usuarios que están inactivos (estado false)")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Lista de usuarios inactivos obtenida correctamente.", content = @Content(mediaType = "application/json", schema = @Schema(implementation = User.class))),
+            @ApiResponse(responseCode = "204", description = "No se encontraron usuarios inactivos.")
+    })
     public ResponseEntity<CollectionModel<EntityModel<User>>> obtenerInactivos() {
         List<User> inactivos = userService.findByEstadoFalse();
         List<EntityModel<User>> userModels = inactivos.stream()
@@ -91,6 +107,11 @@ public class UserController {
 
     @GetMapping("/listar/dto")
     @Operation(summary = "Listar todos los usuarios como DTO", description = "Obtiene una lista de todos los usuarios registrados en formato DTO")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Lista de usuarios DTO obtenida correctamente.", content = @Content(mediaType = "application/json", schema = @Schema(implementation = UserDto.class))),
+            @ApiResponse(responseCode = "204", description = "No se encontraron usuarios DTO."),
+            @ApiResponse(responseCode = "500", description = "Error interno del servidor.")
+    })
     public ResponseEntity<CollectionModel<EntityModel<UserDto>>> listarDto() {
         List<UserDto> userDtos = userService.findAllDto();
         List<EntityModel<UserDto>> userModelDtos = userDtos.stream()
@@ -106,6 +127,11 @@ public class UserController {
 
     @GetMapping("/{id}/dto")
     @Operation(summary = "Obtener usuario por ID como DTO", description = "Devuelve un usuario específico por su ID en formato DTO")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Usuario DTO encontrado.", content = @Content(mediaType = "application/json", schema = @Schema(implementation = UserDto.class))),
+            @ApiResponse(responseCode = "404", description = "Usuario DTO no encontrado."),
+            @ApiResponse(responseCode = "500", description = "Error interno del servidor.")
+    })
     public ResponseEntity<EntityModel<UserDto>> obtenerUsuarioDto(@PathVariable Integer id) {
         try {
             // Obtiene el usuario por id
@@ -122,6 +148,11 @@ public class UserController {
 
     @PostMapping("/guardar")
     @Operation(summary = "Guardar un nuevo usuario", description = "Crea un nuevo usuario en el sistema")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Usuario creado correctamente.", content = @Content(mediaType = "application/json", schema = @Schema(implementation = User.class))),
+            @ApiResponse(responseCode = "400", description = "Solicitud incorrecta."),
+            @ApiResponse(responseCode = "500", description = "Error interno del servidor.")
+    })
     public ResponseEntity<EntityModel<User>> guardar(@RequestBody User user) {
         User nuevoUser = userService.save(user);
         EntityModel<User> userModel = userModelAssembler.toModel(nuevoUser);
@@ -131,6 +162,12 @@ public class UserController {
 
     @PutMapping("/{id}/actualizar")
     @Operation(summary = "Actualizar un usuario existente", description = "Actualiza los detalles de un usuario por su ID")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Usuario actualizado correctamente.", content = @Content(mediaType = "application/json", schema = @Schema(implementation = User.class))),
+            @ApiResponse(responseCode = "404", description = "Usuario no encontrado."),
+            @ApiResponse(responseCode = "400", description = "Solicitud incorrecta."),
+            @ApiResponse(responseCode = "500", description = "Error interno del servidor.")
+    })
     public ResponseEntity<EntityModel<User>> actualizar(@PathVariable Integer id, @RequestBody User user) {
         try {
 
@@ -153,6 +190,11 @@ public class UserController {
 
     @DeleteMapping("/{id}/eliminar")
     @Operation(summary = "Eliminar un usuario por ID", description = "Elimina un usuario del sistema por su ID")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "Usuario eliminado correctamente."),
+            @ApiResponse(responseCode = "404", description = "Usuario no encontrado."),
+            @ApiResponse(responseCode = "500", description = "Error interno del servidor.")
+    })
     public ResponseEntity<?> eliminar(@PathVariable Integer id) {
         try {
             userService.deleteById(id);
@@ -167,6 +209,11 @@ public class UserController {
     // eliminar usuario por estado
     @DeleteMapping("/{id}/eliminar/estado")
     @Operation(summary = "Eliminar un usuario por estado", description = "Elimina un usuario estableciendo su estado a false")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "Usuario eliminado por estado correctamente."),
+            @ApiResponse(responseCode = "400", description = "Solicitud incorrecta."),
+            @ApiResponse(responseCode = "500", description = "Error interno del servidor.")
+    })
     public ResponseEntity<?> eliminarPorEstado(@PathVariable Integer id) {
         try {
             userService.deleteByIdFalse(id);
@@ -181,6 +228,11 @@ public class UserController {
     // y devuelve un mensaje de éxito o error
     @PostMapping("/login")
     @Operation(summary = "Iniciar sesión", description = "Permite a un usuario iniciar sesión con su email y contraseña")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Inicio de sesión exitoso."),
+            @ApiResponse(responseCode = "401", description = "Credenciales incorrectas."),
+            @ApiResponse(responseCode = "500", description = "Error interno del servidor.")
+    })
     public ResponseEntity<String> login(@RequestBody User user) {
         try {
             boolean exito = userService.login(user.getEmail(), user.getPassword());
@@ -199,6 +251,11 @@ public class UserController {
     // eliminar todos los inactivos
     @DeleteMapping("/eliminar/inactivos")
     @Operation(summary = "Eliminar usuarios inactivos", description = "Elimina todos los usuarios que están inactivos (estado false)")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "Usuarios inactivos eliminados correctamente."),
+            @ApiResponse(responseCode = "400", description = "Solicitud incorrecta."),
+            @ApiResponse(responseCode = "500", description = "Error interno del servidor.")
+    })
     public ResponseEntity<?> eliminarInactivos() {
         try {
             userService.deleteByEstadoFalse();
@@ -210,6 +267,12 @@ public class UserController {
 
     @GetMapping("/test-delete")
     @Operation(summary = "Test Delete", description = "Prueba de endpoint para verificar la eliminación")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "El servidor responde correctamente."),
+            @ApiResponse(responseCode = "400", description = "Solicitud incorrecta."),
+            @ApiResponse(responseCode = "500", description = "Error interno del servidor.")
+
+    })
     public ResponseEntity<String> testDelete() {
         return ResponseEntity.ok("El servidor responde correctamente");
     }
