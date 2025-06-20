@@ -81,7 +81,7 @@ public class RolController {
         try {
             Rol rol = rolService.findById(id);
             EntityModel<Rol> rolModel = rolModelAssembler.toModelRol(rol);
-            logger.info("Rol encontrado: {}", rol.getId_rol());
+            logger.info("Rol encontrado: {}", id);
             return ResponseEntity.ok(rolModel);
         } catch (RuntimeException e) {
             logger.error("Error al buscar rol con ID {}: {}", id, e.getMessage());
