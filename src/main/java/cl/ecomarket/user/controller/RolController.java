@@ -34,7 +34,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 @Tag(name = "Rol", description = "Controlador para gestionar roles de usuario")
 public class RolController {
 
-        private static final Logger logger = LoggerFactory.getLogger(UserController.class);
+        private static final Logger logger = LoggerFactory.getLogger(RolController.class);
 
     @Autowired
     private RolService rolService;
@@ -84,7 +84,7 @@ public class RolController {
             logger.info("Rol encontrado: {}", id);
             return ResponseEntity.ok(rolModel);
         } catch (RuntimeException e) {
-            logger.error("Error al buscar rol con ID {}: {}", id, e.getMessage());
+            logger.error("no se encuentra rol con el id = {}",id, e.getMessage());
             return ResponseEntity.notFound().build();
         }
 

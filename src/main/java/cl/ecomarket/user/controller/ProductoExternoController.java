@@ -2,6 +2,7 @@ package cl.ecomarket.user.controller;
 
 import java.util.List;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
@@ -10,6 +11,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import cl.ecomarket.user.assembles.UserProdExtrerAssembler;
 import cl.ecomarket.user.client.ProductoService;
@@ -30,6 +34,8 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @Tag(name = "Producto Externo", description = "Controlador para gestionar productos externos")
 public class ProductoExternoController {
 
+        private static final Logger logger = LoggerFactory.getLogger(ProductoExternoController.class);
+
     @Autowired
     private ProductoService productoService;
 
@@ -47,13 +53,17 @@ public class ProductoExternoController {
             @ApiResponse(responseCode = "500", description = "Error interno del servidor.")
     })
     public ResponseEntity<CollectionModel<EntityModel<ProductoDto>>> listarProductos() {
+        logger.info("Listando todos los productos externos");
+         // Llama al servicio para obtener la lista de productos
         List<ProductoDto> productos = productoService.listarProductos();
         if (productos == null || productos.isEmpty()) {
+            logger.warn("No se encontraron productos externos");
             return ResponseEntity.noContent().build();
         }
         List<EntityModel<ProductoDto>> productoModels = productos.stream()
                 .map(userProdExtrerAssembler::toModelProducto)
                 .toList();
+        logger.info("Productos externos encontrados: {}", productoModels.size());
         return ResponseEntity.ok(CollectionModel.of(productoModels));
     }
 
@@ -66,13 +76,16 @@ public class ProductoExternoController {
     })
     public ResponseEntity<EntityModel<UserProductoDto>> obtenerProductoPorIduser(@PathVariable("id") Long id) {
         ProductoDto producto = productoService.obtenerProductoPorId(id);
+        logger.info("Buscando producto externo con ID: {}", id);
         if (producto == null) {
+            logger.warn("Producto externo con ID {} no encontrado", id);
             return ResponseEntity.notFound().build();
         }
         User user;
         try {
             user = userService.userId(id.intValue());
         } catch (Exception e) {
+            logger.error("Error al buscar usuario con ID = {}", id, e.getMessage());
             return ResponseEntity.notFound().build();
         }
         UserProductoDto userProductoDto = new UserProductoDto();
@@ -81,6 +94,7 @@ public class ProductoExternoController {
 
         // Aplica el assembler para HATEOAS
         EntityModel<UserProductoDto> model = userProdExtrerAssembler.toModelUserProd(userProductoDto);
+        logger.info("Producto externo asociado al usuario encontrado: {}", userProductoDto);
         return ResponseEntity.ok(model);
     }
 }

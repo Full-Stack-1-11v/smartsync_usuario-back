@@ -11,8 +11,12 @@ import org.springframework.context.annotation.ComponentScan;
 @ComponentScan(basePackages = "cl.ecomarket.user")
 public class UserApplication {
 
+	/*
+	 * Método principal para iniciar la aplicación.
+	 */
 	public static void main(String[] args) {
 		SpringApplication.run(UserApplication.class, args);
+		
 	}
 
 }
