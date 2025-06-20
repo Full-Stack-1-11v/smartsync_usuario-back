@@ -76,6 +76,14 @@ public class ProductoExternoControllerTest {
                 .andExpect(status().isNotFound());
     }
 
+
+    @Test
+void testListarProductosEmpty() throws Exception {
+    Mockito.when(productoService.listarProductos()).thenReturn(java.util.Collections.emptyList());
+
+    mockMvc.perform(get("/api/v1/ecomarket/producto"))
+            .andExpect(status().isNoContent());
+} 
     @Test
     void testObtenerProductoPorIduserUserNotFound() throws Exception {
         ProductoDto producto = new ProductoDto();
