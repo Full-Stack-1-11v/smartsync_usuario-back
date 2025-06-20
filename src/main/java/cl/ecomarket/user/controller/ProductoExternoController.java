@@ -28,7 +28,10 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
-
+/**
+ * Controlador REST para gestionar productos externos.
+ * Proporciona endpoints para listar productos externos y obtener productos asociados a usuarios.
+ */
 @RestController
 @RequestMapping("/api/v1/ecomarket/producto")
 @Tag(name = "Producto Externo", description = "Controlador para gestionar productos externos")
@@ -44,7 +47,10 @@ public class ProductoExternoController {
 
     @Autowired
     private UserProdExtrerAssembler userProdExtrerAssembler;
-
+/**
+     * Lista todos los productos externos disponibles.
+     * @return Lista de productos externos en formato HATEOAS, o una respuesta vacía si no hay productos disponibles.
+     */
     @GetMapping()
     @Operation(summary = "Listar productos externos", description = "Obtiene una lista de todos los productos externos disponibles")
     @ApiResponses(value = {
@@ -67,6 +73,11 @@ public class ProductoExternoController {
         return ResponseEntity.ok(CollectionModel.of(productoModels));
     }
 
+    /**
+     * Obtiene un producto externo asociado a un usuario por su ID.
+     * @param id ID del usuario/producto.
+     * @return Producto externo asociado al usuario en formato HATEOAS, o una respuesta 404 si no se encuentra el producto o el usuario.
+     */
     @GetMapping("/userproductodto/{id}")
     @Operation(summary = "Obtener producto por ID de usuario", description = "Obtiene un producto externo asociado a un usuario por su ID")
     @ApiResponses(value = {

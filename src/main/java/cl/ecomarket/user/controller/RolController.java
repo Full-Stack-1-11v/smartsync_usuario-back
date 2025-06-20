@@ -28,7 +28,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-
+/**
+ * Controlador REST para gestionar roles de usuario.
+ * Proporciona endpoints para listar, buscar y crear roles.
+ */
 @RestController
 @RequestMapping("/api/v1/rol")
 @Tag(name = "Rol", description = "Controlador para gestionar roles de usuario")
@@ -43,7 +46,10 @@ public class RolController {
     private RolModelAssembler rolModelAssembler;
 
     Rol rol = new Rol();
-
+/**
+     * Lista todos los roles registrados.
+     * @return Lista de roles en formato HATEOAS, o 204 si no hay roles.
+     */
     @GetMapping("/listar")
     @Operation(summary = "Listar todos los roles",description = "Obtiene una lista de todos los roles registrados")
     @ApiResponses(value = {
@@ -68,7 +74,11 @@ public class RolController {
                     linkTo(methodOn(RolController.class).listarRoles()).withSelfRel()));
         }
     }
-
+/**
+     * Busca un rol por su ID.
+     * @param id ID del rol.
+     * @return Rol encontrado en formato HATEOAS o 404 si no existe.
+     */
     @GetMapping("/{id}/buscar")
     @Operation(summary = "Buscar rol por ID", description = "Obtiene un rol específico por su ID")
     @ApiResponses(value = {
@@ -89,7 +99,11 @@ public class RolController {
         }
 
     }
-
+ /**
+     * Guarda un nuevo rol en el sistema.
+     * @param rol Rol a guardar.
+     * @return Rol creado en formato HATEOAS y código 201 si se creó correctamente.
+     */
     @PostMapping("/guardar")
     @Operation(summary = "Guardar un nuevo rol", description = "Crea un nuevo rol en el sistema")
     @ApiResponses(value = {

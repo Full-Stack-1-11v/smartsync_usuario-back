@@ -4,7 +4,6 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 import java.util.List;
-//import java.util.logging.Logger;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
@@ -35,6 +34,11 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * Controlador REST para gestionar usuarios.
+ * Proporciona endpoints para listar, buscar, crear, actualizar, eliminar y
+ * autenticar usuarios.
+ */
 @RestController
 @RequestMapping("/api/v1/user")
 @Tag(name = "User", description = "Controlador para gestionar usuarios")
@@ -50,9 +54,16 @@ public class UserController {
     @Autowired
     private UserModelAssembler userModelAssembler;
 
-    // private static final Logger logger =
-    // Logger.getLogger(UserController.class.getName());
-
+    /**
+     * Lista todos los usuarios registrados.
+     * <p>
+     * Devuelve una colección de {@link User} en formato HATEOAS.
+     * </p>
+     * @return Lista de usuarios en formato HATEOAS, o 204 si no hay usuarios.
+     * @see User
+     * @see CollectionModel
+     * @see EntityModel
+     */
     @GetMapping("/listar")
     @Operation(summary = "Listar todos los usuarios", description = "Obtiene una lista de todos los usuarios registrados")
     @ApiResponses(value = {
@@ -75,7 +86,11 @@ public class UserController {
         }
     }
 
-    // buscar usuario por id y devovlver un activo si es true o incativo si es false
+    /**
+     * Busca un usuario por su ID.
+     * @param id ID del usuario.
+     * @return ResponseEntity con el usuario en formato HATEOAS o 404 si no se encuentra.
+     */
     @GetMapping("/buscar/{id}")
     @Operation(summary = "Buscar un usuario por ID", description = "Obtiene un usuario específico por su ID")
     @ApiResponses(value = {
@@ -96,7 +111,10 @@ public class UserController {
         }
     }
 
-    // obtener usuarios inactivos
+   /**
+     * Obtiene la lista de usuarios inactivos (estado false).
+     * @return Lista de usuarios inactivos en formato HATEOAS, o 204 si no hay usuarios inactivos.
+     */
     @GetMapping("/inactivos")
     @Operation(summary = "Obtener usuarios inactivos", description = "Devuelve una lista de usuarios que están inactivos (estado false)")
     @ApiResponses(value = {
@@ -119,6 +137,10 @@ public class UserController {
         }
     }
 
+    /**
+     * Lista todos los usuarios como DTO.
+     * @return Lista de usuarios DTO en formato HATEOAS, o 204 si no hay usuarios.
+     */
     @GetMapping("/listar/dto")
     @Operation(summary = "Listar todos los usuarios como DTO", description = "Obtiene una lista de todos los usuarios registrados en formato DTO")
     @ApiResponses(value = {
@@ -142,6 +164,11 @@ public class UserController {
         }
     }
 
+    /**
+     * Obtiene un usuario por su ID como DTO.
+     * @param id ID del usuario.
+     * @return Usuario DTO encontrado en formato HATEOAS o 404 si no existe.
+     */
     @GetMapping("/{id}/dto")
     @Operation(summary = "Obtener usuario por ID como DTO", description = "Devuelve un usuario específico por su ID en formato DTO")
     @ApiResponses(value = {
@@ -166,6 +193,11 @@ public class UserController {
         }
     }
 
+    /**
+     * Guarda un nuevo usuario.
+     * @param user Objeto User con los datos del nuevo usuario.
+     * @return Usuario creado en formato HATEOAS y código 201 si se crea correctamente.
+     */
     @PostMapping("/guardar")
     @Operation(summary = "Guardar un nuevo usuario", description = "Crea un nuevo usuario en el sistema")
     @ApiResponses(value = {
@@ -182,6 +214,12 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.CREATED).body(userModel);
     }
 
+     /**
+     * Actualiza un usuario existente por su ID.
+     * @param id ID del usuario a actualizar.
+     * @param user Objeto User con los nuevos datos del usuario.
+     * @return Usuario actualizado en formato HATEOAS y código 200 si se actualiza correctamente, o 404 si no se encuentra.
+     */
     @PutMapping("/{id}/actualizar")
     @Operation(summary = "Actualizar un usuario existente", description = "Actualiza los detalles de un usuario por su ID")
     @ApiResponses(value = {
@@ -213,6 +251,11 @@ public class UserController {
         }
     }
 
+    /**
+     * Elimina un usuario por su ID.
+     * @param id ID del usuario a eliminar.
+     * @return ResponseEntity con código 204 si se elimina correctamente, o 404 si no se encuentra.
+     */
     @DeleteMapping("/{id}/eliminar")
     @Operation(summary = "Eliminar un usuario por ID", description = "Elimina un usuario del sistema por su ID")
     @ApiResponses(value = {
@@ -234,7 +277,11 @@ public class UserController {
 
     }
 
-    // eliminar usuario por estado
+     /**
+     * Elimina un usuario estableciendo su estado a false.
+     * @param id ID del usuario a eliminar por estado.
+     * @return ResponseEntity con código 204 si se elimina correctamente, o 400 si hay un error en la solicitud.
+     */
     @DeleteMapping("/{id}/eliminar/estado")
     @Operation(summary = "Eliminar un usuario por estado", description = "Elimina un usuario estableciendo su estado a false")
     @ApiResponses(value = {
@@ -254,9 +301,11 @@ public class UserController {
         }
     }
 
-    // login
-    // Este método recibe un objeto User con el email y la contraseña,
-    // y devuelve un mensaje de éxito o error
+    /**
+     * Inicia sesión con un usuario.
+     * @param user Objeto User con email y contraseña.
+     * @return Mensaje de éxito o error según el resultado del login.
+     */
     @PostMapping("/login")
     @Operation(summary = "Iniciar sesión", description = "Permite a un usuario iniciar sesión con su email y contraseña")
     @ApiResponses(value = {
@@ -283,7 +332,10 @@ public class UserController {
         }
     }
 
-    // eliminar todos los inactivos
+    /**
+     * Endpoint de prueba para verificar la eliminación.
+     * @return Mensaje de éxito si el servidor responde correctamente.
+     */
     @DeleteMapping("/eliminar/inactivos")
     @Operation(summary = "Eliminar usuarios inactivos", description = "Elimina todos los usuarios que están inactivos (estado false)")
     @ApiResponses(value = {
@@ -303,6 +355,10 @@ public class UserController {
         }
     }
 
+    /**
+     * Método no implementado.
+     * @return Nunca retorna, lanza excepción.
+     */
     @GetMapping("/test-delete")
     @Operation(summary = "Test Delete", description = "Prueba de endpoint para verificar la eliminación")
     @ApiResponses(value = {
